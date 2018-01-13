@@ -33,19 +33,15 @@ const ListAggregatorView = styled.div`
 */
 
 class ListAggregator extends React.Component<ListAggregatorPropTypes> {
+  componentDidMount() {
+    fetch('http://localhost:8080/')
+      .then(res => res.json())
+      .then(payload => console.log(payload))
+  }
+
   render() {
     return (
       <ListAggregatorView>
-        <List />
-        <List />
-        <List />
-        <List />
-        <List />
-        <List />
-        <List />
-        <List />
-        <List />
-        <List />
         <List />
         <List />
         <List />
