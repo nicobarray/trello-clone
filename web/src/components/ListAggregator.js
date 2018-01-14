@@ -15,12 +15,19 @@ import List from './List'
 
 export type ListAggregatorPropTypes = {}
 
+type ListAggregatorStateTypes = {
+  lists: Array<{ name: string, id: string }>
+}
+
 /*
 ** Styled
 */
 
 const ListAggregatorView = styled.div`
-  height: 100%;
+  height: calc(100% - 50px);
+  width: 100%;
+
+  padding: 4px;
 
   display: flex;
   flex-flow row nowrap;
@@ -32,26 +39,35 @@ const ListAggregatorView = styled.div`
 ** Component
 */
 
-class ListAggregator extends React.Component<ListAggregatorPropTypes> {
+class ListAggregator extends React.Component<
+  ListAggregatorPropTypes,
+  ListAggregatorStateTypes
+> {
+  state = {
+    lists: []
+  }
+
   componentDidMount() {
-    fetch('http://localhost:8080/')
+    fetch('http://localhost:8080/lists')
       .then(res => res.json())
-      .then(payload => console.log(payload))
+      .then(lists =>
+        this.setState(prevState => ({
+          lists: lists.map(el => {
+            const id = el._id
+            delete el._id
+            el.id = id
+            return el
+          })
+        }))
+      )
   }
 
   render() {
     return (
       <ListAggregatorView>
-        <List />
-        <List />
-        <List />
-        <List />
-        <List />
-        <List />
-        <List />
-        <List />
-        <List />
-        <List />
+        {this.state.lists.map(list => (
+          <List key={list.id} id={list.id} name={list.name} />
+        ))}
       </ListAggregatorView>
     )
   }

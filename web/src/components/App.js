@@ -7,6 +7,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import AppHeader from './AppHeader'
 import ListAggregator from './ListAggregator'
 
 /*
@@ -34,6 +35,7 @@ class App extends React.Component<AppPropTypes> {
   render() {
     return (
       <AppView>
+        <AppHeader />
         <ListAggregator />
       </AppView>
     )

@@ -1,17 +1,24 @@
 const koa = require('koa')
-const route = require('koa-route')
-const logger = require('koa-logger')
+const bodyParser = require('koa-bodyparser')
+const koaLogger = require('koa-logger')
 const cors = require('@koa/cors')
+const path = require('path')
+const Datastore = require('nedb')
 
-const home = require('./routes/home')
+const logger = require('./lib/logger')
+const routes = require('./routes')
 
 const app = new koa()
 
-app.use(logger())
+const db = new Datastore({
+  filename: path.join(__dirname, 'data/development.db'),
+  autoload: true
+})
+app.context.db = db
+
+app.use(koaLogger())
 app.use(cors())
-
-app.use(route.get('/', home))
-
+app.use(routes)
 app.listen(8080)
 
 console.log(

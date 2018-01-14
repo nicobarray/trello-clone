@@ -13,7 +13,10 @@ import ListItem from './ListItem'
 ** Types
 */
 
-export type ListPropTypes = {}
+export type ListPropTypes = {
+  id: string,
+  name: string
+}
 
 /*
 ** Styled
@@ -22,7 +25,6 @@ export type ListPropTypes = {}
 const ListView = styled.ul`
   width: 200px;
   min-width: 200px;
-  height: 100%;
 
   background: green;
 
@@ -46,6 +48,7 @@ const ListHeader = styled.li`
   /* Text */
   line-height: 30px;
   padding-left: 4px;
+  padding-right: 4px;
 
   list-style: none;
 `
@@ -58,7 +61,7 @@ class List extends React.Component<ListPropTypes> {
   render() {
     return (
       <ListView>
-        <ListHeader>List Name</ListHeader>
+        <ListHeader>{this.props.name}</ListHeader>
         <ListItem />
         <ListItem />
         <ListItem />

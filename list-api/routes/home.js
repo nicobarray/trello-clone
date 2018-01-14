@@ -1,5 +1,7 @@
 const pkg = require('../package.json')
 
-module.exports = ctx => {
-  ctx.body = { lists: {} }
+module.exports = {
+  handler: ctx => {
+    ctx.body = { version: pkg.version }
+  }
 }
