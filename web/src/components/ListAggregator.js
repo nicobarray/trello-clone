@@ -8,6 +8,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import List from './List'
+import ListAdd from './ListAdd'
 
 /*
 ** Types
@@ -62,12 +63,17 @@ class ListAggregator extends React.Component<
       )
   }
 
+  handleNewList = (list: { id: string, name: string }) => {
+    this.setState(prevState => ({ lists: [...prevState.lists, list] }))
+  }
+
   render() {
     return (
       <ListAggregatorView>
         {this.state.lists.map(list => (
           <List key={list.id} id={list.id} name={list.name} />
         ))}
+        <ListAdd onNewList={this.handleNewList} />
       </ListAggregatorView>
     )
   }

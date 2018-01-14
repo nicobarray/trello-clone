@@ -28,8 +28,7 @@ type ListStateTypes = {
 */
 
 const ListView = styled.ul`
-  width: 200px;
-  min-width: 200px;
+  width: 300px;
 
   margin: 4px 4px 0px 4px;
 
@@ -43,10 +42,10 @@ const ListHeader = styled.li`
   width: 100%;
   height: 38px;
 
-  background: white;
+  background: #e2e4e6;
 
   /* Layout */
-  padding: 4px;
+  padding: 8px 4px;
 
   /* Text */
   line-height: 30px;
@@ -65,6 +64,10 @@ class List extends React.Component<ListPropTypes, ListStateTypes> {
     items: []
   }
 
+  handleNewItem = (item: { _id: string, description: string }) => {
+    this.setState(prevState => ({ items: [...prevState.items, item] }))
+  }
+
   componentDidMount() {
     fetch('http://localhost:8080/items/' + this.props.id)
       .then(res => res.json())
@@ -81,7 +84,7 @@ class List extends React.Component<ListPropTypes, ListStateTypes> {
       <ListView>
         <ListHeader>{this.props.name}</ListHeader>
         {this.state.items.map(item => <ListItem key={item._id} item={item} />)}
-        <ListItemAdd listId={this.props.id} />
+        <ListItemAdd listId={this.props.id} onNewItem={this.handleNewItem} />
       </ListView>
     )
   }

@@ -26,7 +26,7 @@ const ListItemView = styled.li`
   width: 100%;
   height: 38px;
 
-  background: white;
+  background: #e2e4e6;
 
   /* Layout */
   padding: 4px;
@@ -37,7 +37,7 @@ const ListItemView = styled.li`
 const ListItemContent = styled.div`
   height: 100%;
 
-  background: grey;
+  background: white;
 
   border-radius: 2px;
 
@@ -63,9 +63,5 @@ class ListItem extends React.Component<ListItemPropTypes> {
     )
   }
 }
-
-/*
-** Container
-*/
 
 export default ListItem

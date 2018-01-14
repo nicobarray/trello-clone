@@ -4,52 +4,62 @@
 ** Imports
 */
 
-import React, { SyntheticEvent } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
 /*
 ** Types
 */
 
-export type ListItemAddPropTypes = {
-  listId: string,
-  onNewItem: ({ _id: string, description: string }) => void
+export type ListAddPropTypes = {
+  onNewList: ({ name: string, id: string }) => void
 }
 
-type ListItemAddStateTypes = {
+type ListAddStateTypes = {
   passive: boolean,
-  description: string
+  name: string
 }
 
 /*
 ** Styled
 */
 
-const ListAddItemPassiveView = styled.div`
+const ListAddWrapper = styled.div`
+  width: 300px;
+  height: 100px;
+
+  padding: 4px;
+`
+
+const ListAddPassiveView = styled.ul`
   width: 100%;
   height: 32px;
 
-  background: #e2e4e6;
+  background: rgba(0, 0, 0, 0.4);
 
-  border-radius: 0px 0px 5px 5px;
+  border-radius: 5px;
+
+  line-height: 32px;
+  padding-left: 4px;
+
+  color: grey;
 
   :hover {
-    background: rgb(232, 232, 232);
+    background: #e2e4e6;
   }
 
-  /* Layout */
-  padding: 4px;
-
-  /* Text */
-  color: grey;
+  overflow-x: hidden;
+  overflow-y: scroll;
 `
 
-const ListAddItemActiveView = styled.form`
+const ListAddActiveView = styled.form`
   width: 100%;
   height: 100px;
 
   background: #e2e4e6;
-  border-radius: 0px 0px 5px 5px;
+  border-radius: 5px;
+
+  color: white;
 
   /* Layout */
   padding: 4px;
@@ -83,13 +93,10 @@ const ListAddItemSubmitButton = styled.button`
 ** Component
 */
 
-class ListItemAdd extends React.Component<
-  ListItemAddPropTypes,
-  ListItemAddStateTypes
-> {
+class ListAdd extends React.Component<ListAddPropTypes, ListAddStateTypes> {
   state = {
     passive: true,
-    description: ''
+    name: ''
   }
 
   inputNode = null
@@ -112,20 +119,25 @@ class ListItemAdd extends React.Component<
   handleSubmit = (event: SyntheticEvent<>) => {
     event.preventDefault()
 
-    fetch('http://localhost:8080/items', {
+    fetch('http://localhost:8080/lists', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        listId: this.props.listId,
-        description: this.state.description
+        name: this.state.name
       })
     })
       .then(res => res.json())
-      .then(this.props.onNewItem)
+      .then(el => {
+        const id = el._id
+        delete el._id
+        el.id = id
+        return el
+      })
+      .then(this.props.onNewList)
       .catch(err => {
-        console.log('Error, could not add the new item')
+        console.log('Error, could not add the new list')
       })
 
     if (this.inputNode !== null) {
@@ -136,7 +148,7 @@ class ListItemAdd extends React.Component<
 
   handleChange = (event: SyntheticEvent<HTMLInputElement>) => {
     const value = event.currentTarget.value
-    this.setState(prevState => ({ description: value }))
+    this.setState(prevState => ({ name: value }))
   }
 
   componentDidMount() {
@@ -148,8 +160,8 @@ class ListItemAdd extends React.Component<
   }
 
   componentDidUpdate(
-    prevProps: ListItemAddPropTypes,
-    prevState: ListItemAddStateTypes
+    prevProps: ListAddPropTypes,
+    prevState: ListAddStateTypes
   ) {
     if (prevState.passive && !this.state.passive) {
       if (this.inputNode !== null) {
@@ -161,28 +173,36 @@ class ListItemAdd extends React.Component<
   renderInput = () => {
     if (this.state.passive) {
       return (
-        <ListAddItemPassiveView onClick={this.handleClickOnPassiveView}>
-          Add item...
-        </ListAddItemPassiveView>
+        <ListAddPassiveView onClick={this.handleClickOnPassiveView}>
+          New List...
+        </ListAddPassiveView>
       )
     }
 
     return (
-      <ListAddItemActiveView onSubmit={this.handleSubmit}>
+      <ListAddActiveView onSubmit={this.handleSubmit}>
         <ListAddItemInput
           innerRef={el => (this.inputNode = el)}
-          placeholder="Add item..."
+          placeholder="New list..."
           onChange={this.handleChange}
-          value={this.state.description}
+          value={this.state.name}
         />
         <ListAddItemSubmitButton type="submit">Add</ListAddItemSubmitButton>
-      </ListAddItemActiveView>
+      </ListAddActiveView>
     )
   }
 
   render() {
-    return <div ref={el => (this.rootNode = el)}>{this.renderInput()}</div>
+    return (
+      <ListAddWrapper innerRef={el => (this.rootNode = el)}>
+        {this.renderInput()}
+      </ListAddWrapper>
+    )
   }
 }
 
-export default ListItemAdd
+/*
+** Container
+*/
+
+export default ListAdd
