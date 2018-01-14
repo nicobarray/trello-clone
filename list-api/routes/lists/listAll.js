@@ -13,6 +13,6 @@ module.exports = {
     }
   },
   handler: async ctx => {
-    ctx.body = await lists.listAll(ctx.db)
+    ctx.body = await lists.listAll(ctx.db.lists)
   }
 }

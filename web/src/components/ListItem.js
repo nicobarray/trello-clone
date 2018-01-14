@@ -11,7 +11,12 @@ import styled from 'styled-components'
 ** Types
 */
 
-export type ListItemPropTypes = {}
+export type ListItemPropTypes = {
+  item: {
+    _id: string,
+    description: string
+  }
+}
 
 /*
 ** Styled
@@ -53,7 +58,7 @@ class ListItem extends React.Component<ListItemPropTypes> {
   render() {
     return (
       <ListItemView>
-        <ListItemContent>Item A</ListItemContent>
+        <ListItemContent>{this.props.item.description}</ListItemContent>
       </ListItemView>
     )
   }

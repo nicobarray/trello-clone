@@ -10,10 +10,16 @@ const routes = require('./routes')
 
 const app = new koa()
 
-const db = new Datastore({
-  filename: path.join(__dirname, 'data/development.db'),
-  autoload: true
-})
+const db = {
+  lists: new Datastore({
+    filename: path.join(__dirname, 'data/lists.development.db'),
+    autoload: true
+  }),
+  items: new Datastore({
+    filename: path.join(__dirname, 'data/items.development.db'),
+    autoload: true
+  })
+}
 app.context.db = db
 
 app.use(koaLogger())
