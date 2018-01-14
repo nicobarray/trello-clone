@@ -58,6 +58,9 @@ const ListAddActiveView = styled.form`
   width: 100%;
   height: 100px;
 
+  display: flex;
+  flex-flow: column nowrap;
+
   background: #e2e4e6;
   border-radius: 5px;
 
@@ -83,6 +86,8 @@ const ListAddItemSubmitButton = styled.button`
   width: 50px;
 
   background-color: #5aac44;
+
+  margin-top: 4px;
 
   border: 0;
 
