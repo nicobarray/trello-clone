@@ -25,6 +25,8 @@ type ListAddStateTypes = {
 */
 
 const ListAddWrapper = styled.div`
+  flex: 1 0 auto;
+
   width: 300px;
   height: 100px;
 

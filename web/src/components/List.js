@@ -28,6 +28,8 @@ type ListStateTypes = {
 */
 
 const ListView = styled.ul`
+  flex: 1 0 auto;
+
   width: 300px;
 
   margin: 4px 4px 0px 4px;
