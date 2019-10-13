@@ -4,7 +4,7 @@
 ** Imports
 */
 
-import React, { SyntheticEvent } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
 /*
@@ -100,11 +100,11 @@ class ListItemAdd extends React.Component<
   inputNode = null
   rootNode = null
 
-  handleClickOnPassiveView = (event: SyntheticEvent<>) => {
+  handleClickOnPassiveView = () => {
     this.setState(prevState => ({ passive: false }))
   }
 
-  handleBlur = (event: SyntheticEvent<>) => {
+  handleBlur = (event: any) => {
     const clickIsInside = event.path.indexOf(this.rootNode) !== -1
 
     if (clickIsInside) {
