@@ -17,7 +17,7 @@
     "koa-bodyparser": "4.2.0",
     "koa-joi-router": "5.1.0",
     "koa-logger": "3.1.0",
-    "lodash": "4.17.4"
+    "lodash": "4.17.21"
   },
   "prettier": {
     "singleQuote": true,
